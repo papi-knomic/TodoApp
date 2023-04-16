@@ -52,10 +52,7 @@ class AuthController extends Controller
     {
         $token = config('keys.token');
         $accessToken = Auth::user()->createToken($token)->plainTextToken;
-        $data = auth()->user();
-        $user =  User::whereId($data->id)
-            ->with('profilePicture')
-            ->first();
+        $user =  User::find( auth()->id() );
         $profileResource = new ProfileResource($user);
         return Response::successResponseWithData($profileResource, 'Profile data gotten', 200, $accessToken);
     }

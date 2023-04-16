@@ -35,14 +35,6 @@ class UpdateProfileRequest extends FormRequest
                 'email',
                 Rule::unique('users', 'email')->ignore(auth()->id()),
             ],
-            'location' => 'string',
-            'skills' => 'string',
-            'github_url' => 'nullable|url',
-            'bio' => 'string|min:50|max:500',
-            'portfolio' => 'nullable|string',
-            'interests' => 'nullable|string',
-            'current_position' => 'nullable|string',
-            'languages' => 'nullable|string'
         ];
     }
 }

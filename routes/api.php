@@ -28,4 +28,13 @@ Route::group(['middleware' => ['json', 'throttle:60,1']], function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     //login
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::prefix('account')->group( function () {
+            // Fetch profile
+            Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+            //update
+            Route::post('/profile', [AuthController::class, 'update'])->name('profile.update');
+        });
+    });
 });
