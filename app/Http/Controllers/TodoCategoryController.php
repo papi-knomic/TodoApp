@@ -2,84 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddTodoCategoryRequest;
+use App\Http\Resources\JobResource;
+use App\Http\Resources\TodoCategoryResource;
+use App\Http\Resources\TodoResource;
 use App\Models\TodoCategory;
-use Illuminate\Http\Request;
+use App\Traits\Response;
+use Illuminate\Http\JsonResponse;
 
 class TodoCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index() : JsonResponse
     {
-        //
+        $categories = TodoCategory::all();
+        $categories = TodoCategoryResource::collection($categories);
+        return Response::successResponseWithData($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AddTodoCategoryRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(AddTodoCategoryRequest $request) : JsonResponse
     {
-        //
+        $fields = $request->validated();
+        $category = TodoCategory::create($fields);
+        $category = new TodoCategoryResource($category);
+
+        return Response::successResponseWithData($category, 'Category has been added', 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TodoCategory  $todoCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TodoCategory $todoCategory)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TodoCategory  $todoCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TodoCategory $todoCategory)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TodoCategory  $todoCategory
-     * @return \Illuminate\Http\Response
+     * @param AddTodoCategoryRequest $request
+     * @param TodoCategory $todoCategory
+     * @return JsonResponse
      */
-    public function update(Request $request, TodoCategory $todoCategory)
+    public function update(AddTodoCategoryRequest $request, TodoCategory $todoCategory) : JsonResponse
     {
-        //
+        $fields = $request->validated();
+        $category = $todoCategory->update($fields);
+        $category = new TodoCategoryResource($category);
+
+        return Response::successResponseWithData($category, 'Category has been added', 201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
-     * @return \Illuminate\Http\Response
+     * @param TodoCategory $todoCategory
+     * @return JsonResponse
      */
     public function destroy(TodoCategory $todoCategory)
     {
-        //
+        $todoCategory->delete();
+
+        return Response::successResponse();
     }
 }

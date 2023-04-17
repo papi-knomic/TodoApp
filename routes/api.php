@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TodoCategoryController;
+use App\Models\TodoCategory;
 use App\Traits\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,23 @@ Route::group(['middleware' => ['json', 'throttle:60,1']], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
+
+        // Get categories
+        Route::get('/categories', [TodoCategoryController::class, 'index']);
+
+        //admin prefix
+        Route::prefix('admin')->middleware('admin')->group( function () {
+            //create job type
+            Route::prefix('category')->group( function () {
+
+                Route::post('/', [TodoCategoryController::class, 'store']);
+                //update job type
+                Route::put('/{category}', [TodoCategoryController::class, 'update']);
+                //delete job type
+                Route::delete('/{category}', [TodoCategoryController::class, 'destroy']);
+            });
+        });
+
         Route::prefix('account')->group(function () {
             // Fetch profile
             Route::get('/profile', [AuthController::class, 'profile'])->name('profile');

@@ -21,7 +21,8 @@ class ProfileResource extends JsonResource
             "last_name" => $this->last_name,
             "email" => $this->email,
             "username" => $this->username,
-            'email_verified' => (bool)$this->email_verified_at,
+            "email_verified" => (bool)$this->email_verified_at,
+            "role" => $this->role
         ];
     }
 }
