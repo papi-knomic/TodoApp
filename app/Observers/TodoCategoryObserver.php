@@ -9,7 +9,7 @@ class TodoCategoryObserver
     /**
      * Handle the TodoCategory "created" event.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
+     * @param TodoCategory $todoCategory
      * @return void
      */
     public function created(TodoCategory $todoCategory)
@@ -18,9 +18,20 @@ class TodoCategoryObserver
     }
 
     /**
+     * Handle the TodoCategory "created" event.
+     *
+     * @param TodoCategory $todoCategory
+     * @return void
+     */
+    public function creating(TodoCategory $todoCategory)
+    {
+        $this->setTodoCategoryName($todoCategory);
+    }
+
+    /**
      * Handle the TodoCategory "updated" event.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
+     * @param TodoCategory $todoCategory
      * @return void
      */
     public function updated(TodoCategory $todoCategory)
@@ -28,10 +39,15 @@ class TodoCategoryObserver
         //
     }
 
+    public function updating(TodoCategory $todoCategory)
+    {
+      $this->setTodoCategoryName($todoCategory);
+    }
+
     /**
      * Handle the TodoCategory "deleted" event.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
+     * @param TodoCategory $todoCategory
      * @return void
      */
     public function deleted(TodoCategory $todoCategory)
@@ -42,7 +58,7 @@ class TodoCategoryObserver
     /**
      * Handle the TodoCategory "restored" event.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
+     * @param TodoCategory $todoCategory
      * @return void
      */
     public function restored(TodoCategory $todoCategory)
@@ -53,11 +69,18 @@ class TodoCategoryObserver
     /**
      * Handle the TodoCategory "force deleted" event.
      *
-     * @param  \App\Models\TodoCategory  $todoCategory
+     * @param TodoCategory $todoCategory
      * @return void
      */
     public function forceDeleted(TodoCategory $todoCategory)
     {
         //
+    }
+
+
+    private function setTodoCategoryName( TodoCategory $todoCategory )
+    {
+        $title = strtolower( $todoCategory->title );
+        $todoCategory->title = ucfirst( $title );
     }
 }

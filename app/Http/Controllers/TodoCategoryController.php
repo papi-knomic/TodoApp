@@ -51,10 +51,10 @@ class TodoCategoryController extends Controller
     public function update(AddTodoCategoryRequest $request, TodoCategory $todoCategory) : JsonResponse
     {
         $fields = $request->validated();
-        $category = $todoCategory->update($fields);
-        $category = new TodoCategoryResource($category);
+       dd( $todoCategory->update($fields));
+        $todoCategory = new TodoCategoryResource($todoCategory);
 
-        return Response::successResponseWithData($category, 'Category has been added', 201);
+        return Response::successResponseWithData($todoCategory, 'Category has been updated', 201);
     }
 
     /**

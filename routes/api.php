@@ -40,12 +40,11 @@ Route::group(['middleware' => ['json', 'throttle:60,1']], function () {
         Route::prefix('admin')->middleware('admin')->group( function () {
             //create job type
             Route::prefix('category')->group( function () {
-
                 Route::post('/', [TodoCategoryController::class, 'store']);
                 //update job type
-                Route::put('/{category}', [TodoCategoryController::class, 'update']);
+                Route::put('/{todoCategory}', [TodoCategoryController::class, 'update']);
                 //delete job type
-                Route::delete('/{category}', [TodoCategoryController::class, 'destroy']);
+                Route::delete('/{todoCategory}', [TodoCategoryController::class, 'destroy']);
             });
         });
 
