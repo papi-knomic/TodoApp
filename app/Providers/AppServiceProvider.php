@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Todo;
+use App\Models\TodoCategory;
 use App\Models\User;
+use App\Observers\TodoCategoryObserver;
 use App\Observers\TodoObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Schema;
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         User::observe( UserObserver::class);
         Todo::observe( TodoObserver::class);
+        TodoCategory::observe( TodoCategoryObserver::class);
     }
 }

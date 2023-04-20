@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('todo_categories', function (Blueprint $table) {
-            $table->string('title')->unique()->change();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('todo_categories', function (Blueprint $table) {
-            $table->string('title')->change();
+            $table->removeColumn('user_id');
         });
     }
 };

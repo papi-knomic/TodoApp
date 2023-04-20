@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTodoCategoryRequest;
-use App\Http\Resources\JobResource;
 use App\Http\Resources\TodoCategoryResource;
-use App\Http\Resources\TodoResource;
 use App\Models\TodoCategory;
 use App\Traits\Response;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +17,7 @@ class TodoCategoryController extends Controller
      */
     public function index() : JsonResponse
     {
-        $categories = TodoCategory::all();
+        $categories = auth()->user()->categories;
         $categories = TodoCategoryResource::collection($categories);
         return Response::successResponseWithData($categories);
     }
@@ -50,8 +48,11 @@ class TodoCategoryController extends Controller
      */
     public function update(AddTodoCategoryRequest $request, TodoCategory $todoCategory) : JsonResponse
     {
+        if (!isCategoryCreator($todoCategory)) {
+            return Response::errorResponse('You can not edit this category');
+        }
         $fields = $request->validated();
-       dd( $todoCategory->update($fields));
+        $todoCategory->update($fields);
         $todoCategory = new TodoCategoryResource($todoCategory);
 
         return Response::successResponseWithData($todoCategory, 'Category has been updated', 201);
@@ -65,6 +66,10 @@ class TodoCategoryController extends Controller
      */
     public function destroy(TodoCategory $todoCategory)
     {
+        if (!isCategoryCreator($todoCategory)) {
+            return Response::errorResponse('You can not delete this category');
+        }
+
         $todoCategory->delete();
 
         return Response::successResponse();

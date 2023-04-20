@@ -26,6 +26,7 @@ class TodoCategoryObserver
     public function creating(TodoCategory $todoCategory)
     {
         $this->setTodoCategoryName($todoCategory);
+        $todoCategory->user_id = auth()->id();
     }
 
     /**
