@@ -2,47 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTodoRequest;
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
-        //
-    }
+        $todos = auth()->user()->todos;
+        $todos = TodoResource::collection($todos)->response()->getData(true);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return \App\Traits\Response::successResponseWithData($todos);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateTodoRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateTodoRequest $request) : JsonResponse
     {
-        //
+        $fields = $request->validated();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
+     * @param Todo $todo
+     * @return Response
      */
     public function show(Todo $todo)
     {
@@ -50,22 +47,11 @@ class TodoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Todo $todo)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Todo $todo
+     * @return Response
      */
     public function update(Request $request, Todo $todo)
     {
@@ -75,8 +61,8 @@ class TodoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
+     * @param Todo $todo
+     * @return Response
      */
     public function destroy(Todo $todo)
     {

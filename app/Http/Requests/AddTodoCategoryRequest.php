@@ -24,7 +24,14 @@ class AddTodoCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:todo_categories'
+            'title' => 'required|string|unique:todo_categories,title,NULL,id,user_id,' . auth()->id(),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+          'title.unique' => 'Category title already exists'
         ];
     }
 }

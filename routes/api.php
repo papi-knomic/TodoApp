@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoCategoryController;
+use App\Http\Controllers\TodoController;
 use App\Models\TodoCategory;
 use App\Traits\Response;
 use Illuminate\Support\Facades\Route;
@@ -51,8 +52,17 @@ Route::group(['middleware' => ['json', 'throttle:60,1']], function () {
             Route::post('/profile', [AuthController::class, 'update'])->name('profile.update');
         });
 
-        Route::prefix('todo')->group(function () {
+        Route::get('todos', [TodoController::class, 'index']);
 
+        Route::prefix('todo')->group(function () {
+            // get single
+            Route::get('/{todo}', [TodoController::class, 'show']);
+            // create todo
+            Route::post('/{todo}', [TodoController::class, 'store']);
+            // update todo
+            Route::post('/{todo}', [TodoController::class, 'update']);
+            // delete todo
+            Route::delete('/{todo}', [TodoController::class, 'destroy']);
         });
 
     });
