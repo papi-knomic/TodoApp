@@ -39,11 +39,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getIsAdminAttribute(): bool
-    {
-        return $this->role == 'admin';
-    }
-
     public function categories() : HasMany
     {
         return $this->hasMany(TodoCategory::class);

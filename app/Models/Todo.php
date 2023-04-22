@@ -21,4 +21,9 @@ class Todo extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getIsOngoingAttribute(): bool
+    {
+        return $this->status == 'ongoing';
+    }
 }

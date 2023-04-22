@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateTodoRequest extends FormRequest
+class UpdateTodoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,12 @@ class CreateTodoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
+            'priority' => 'nullable|in:low,medium,high',
             'deadline' => ['date_format:Y-m-d H:i:s', 'after:now'],
             'category_id' => [
-                'required',
+                'nullable',
                 Rule::exists('todo_categories', 'id')->where(function ($query) {
                     $query->where('user_id', auth()->id());
                 })

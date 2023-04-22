@@ -70,6 +70,10 @@ class TodoCategoryController extends Controller
             return Response::errorResponse('You can not delete this category');
         }
 
+        if ($todoCategory->todos()->count()) {
+            return Response::errorResponse('You can not delete this category because you have todos attached to it');
+        }
+
         $todoCategory->delete();
 
         return Response::successResponse();

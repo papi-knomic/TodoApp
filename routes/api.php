@@ -58,9 +58,13 @@ Route::group(['middleware' => ['json', 'throttle:60,1']], function () {
             // get single
             Route::get('/{todo}', [TodoController::class, 'show']);
             // create todo
-            Route::post('/{todo}', [TodoController::class, 'store']);
+            Route::post('/', [TodoController::class, 'store']);
             // update todo
             Route::post('/{todo}', [TodoController::class, 'update']);
+            //mark todo
+            Route::post('/{todo}/mark', [TodoController::class, 'markTodo']);
+            //unmark todo
+            Route::post('/{todo}/unmark', [TodoController::class, 'unmarkTodo']);
             // delete todo
             Route::delete('/{todo}', [TodoController::class, 'destroy']);
         });
