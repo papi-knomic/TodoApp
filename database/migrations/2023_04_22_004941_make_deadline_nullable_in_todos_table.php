@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('todos', function (Blueprint $table) {
-            $table->dateTime('deadline');
+            $table->dateTime('deadline')->change();
         });
     }
 };
